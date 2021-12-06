@@ -42,7 +42,7 @@ namespace ByteBank.Agencias
 
             container.Children.Add(lstAgencias);
 
-            lstAgencias.SelectionChanged += new SelectionChangedEventHandler(listAgencias_SelectionChanged);
+            lstAgencias.SelectionChanged += new SelectionChangedEventHandler(lstAgencias_SelectionChanged);
 
             lstAgencias.Items.Clear();
             var agencias = _contextoBancoDeDados.Agencias.ToList();
@@ -50,9 +50,15 @@ namespace ByteBank.Agencias
                 lstAgencias.Items.Add(agencia);
         }
 
-        private void lstAgencias_SelectionChanged()
+        private void lstAgencias_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var agenciaSelecionada = (Agencia)lstAgencias.SelectedItem;
 
+            txtNumero.Text = agenciaSelecionada.Numero;
+            txtNome.Text = agenciaSelecionada.Nome;
+            txtTelefone.Text = agenciaSelecionada.Telefone;
+            txtEndereco.Text = agenciaSelecionada.Endereco;
+            txtDescricao.Text = agenciaSelecionada.Descricao;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
