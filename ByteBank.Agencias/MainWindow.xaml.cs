@@ -22,13 +22,13 @@ namespace ByteBank.Agencias
     public partial class MainWindow : Window
     {
         private readonly ByteBankEntities _contextoBancoDeDados = new ByteBankEntities();
-        private readonly AgenciasListBox lstAgencias;
+        private readonly ListBox lstAgencias;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            lstAgencias = new AgenciasListBox(this);
+            lstAgencias = new ListBox();
             AtualizarControles();
         }
 
@@ -42,10 +42,17 @@ namespace ByteBank.Agencias
 
             container.Children.Add(lstAgencias);
 
+            lstAgencias.SelectionChanged += new SelectionChangedEventHandler(listAgencias_SelectionChanged);
+
             lstAgencias.Items.Clear();
             var agencias = _contextoBancoDeDados.Agencias.ToList();
             foreach (var agencia in agencias)
                 lstAgencias.Items.Add(agencia);
+        }
+
+        private void lstAgencias_SelectionChanged()
+        {
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
