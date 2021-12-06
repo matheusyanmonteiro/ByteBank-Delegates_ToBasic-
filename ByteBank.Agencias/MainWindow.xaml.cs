@@ -40,10 +40,23 @@ namespace ByteBank.Agencias
             Canvas.SetTop(lstAgencias, 15);
             Canvas.SetLeft(lstAgencias, 15);
 
+            lstAgencias.SelectionChanged += new SelectionChangedEventHandler(lstAgencias_SelectionChanged);
+            
             container.Children.Add(lstAgencias);
 
-            lstAgencias.SelectionChanged += new SelectionChangedEventHandler(lstAgencias_SelectionChanged);
+            btnEditar.Click += new RoutedEventHandler(btnEditar_Click);
 
+        }
+
+        private void btnEditar_Click(object sender, RoutedEventArgs e)
+        {
+            var janelaEdicao = new EdicaoAgencia();
+            janelaEdicao.ShowDialog();
+        }
+
+
+        private void AtualizarListaDeAgencias()
+        {
             lstAgencias.Items.Clear();
             var agencias = _contextoBancoDeDados.Agencias.ToList();
             foreach (var agencia in agencias)
