@@ -24,9 +24,11 @@
                         Margin="0,5">
                 <Button Content="Ok" 
                         Margin="15,0" 
-                        Padding="5"/>
+                        Padding="5"
+                        Name="btnOk"/>
                 <Button Content="Cancelar"
-                        Padding="5"/>
+                        Padding="5"
+                        Name="btnCancelar"/>
             </StackPanel>
             
         </StackPanel>
