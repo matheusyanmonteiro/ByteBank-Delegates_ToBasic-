@@ -41,24 +41,18 @@ namespace ByteBank.Agencias
 
         private void AtualizarControles()
         {
-            // a + nessete caso não vai literalmente somar, o compilador vai entender que eu estou chamano o metodo delegate.Combine que fara de fato a união das duas funções.
-            var okEventHandler = (RoutedEventHandler)btnOk_Click + Fechar; //metodo equivalente ao metodo abaixo, porém feito de maneira simplificada 
-            
-            var cancelarEventHandler =
-                (RoutedEventHandler)Delegate.Combine(
-                    (RoutedEventHandler)btnCancelar_Click,
-                    (RoutedEventHandler)Fechar);
 
+            RoutedEventHandler dialogResultTrue = delegate (object o, RoutedEventArgs e) { DialogResult = true; };
+            RoutedEventHandler dialogResultFalse = delegate (object o, RoutedEventArgs e) { DialogResult = true; };
 
+            var okEventHandler = dialogResultTrue + Fechar;
+            var cancelarEventHandler = dialogResultFalse + Fechar;
+        
             btnOk.Click += okEventHandler;
             btnCancelar.Click += cancelarEventHandler;
         }
 
-        private void btnOk_Click(object sender, EventArgs e) => DialogResult = true;
-
-        private void btnCancelar_Click(object sender, EventArgs e) => DialogResult = false;
-       
-
         private void Fechar(object sender, EventArgs e) => Close();
+
     }
 }
