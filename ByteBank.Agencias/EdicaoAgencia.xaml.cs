@@ -52,11 +52,21 @@ namespace ByteBank.Agencias
             btnOk.Click += okEventHandler;
             btnCancelar.Click += cancelarEventHandler;
 
-            txtNome.TextChanged += TextNome_TextChanged;
+            txtNome.TextChanged += ConstruirDelegateValidacaoCampoNulo(txtNome);
             txtDescricao.TextChanged += TextDescricao_TextChanged;
             txtEndereco.TextChanged += TextEndereco_TextChanged;
             txtNumero.TextChanged += TextNumero_TextChanged;
-            txtTelefone.TextChanged += TextTelefone_TextChagend;
+            txtTelefone.TextChanged += ConstruirDelegateValidacaoCampoNulo(txtTelefone);
+        }
+
+        private TextChangedEventHandler ConstruirDelegateValidacaoCampoNulo(TextBox txt)
+        {
+            return (o, e) =>
+            {
+                var textEstaVazio = string.IsNullOrEmpty(txt.Text);
+
+                txt.Background = textEstaVazio ? new SolidColorBrush(Colors.OrangeRed) : new SolidColorBrush(Colors.White);
+            };
         }
 
         private void TextTelefone_TextChagend(object sender, TextChangedEventArgs e)
