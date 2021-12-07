@@ -42,14 +42,90 @@ namespace ByteBank.Agencias
         private void AtualizarControles()
         {
 
-            RoutedEventHandler dialogResultTrue = delegate (object o, RoutedEventArgs e) { DialogResult = true; };
-            RoutedEventHandler dialogResultFalse = delegate (object o, RoutedEventArgs e) { DialogResult = true; };
+            RoutedEventHandler dialogResultTrue =  ( o, e) =>  DialogResult = true;
+            //same
+            RoutedEventHandler dialogResultFalse = delegate (object o, RoutedEventArgs e) { DialogResult = false; };
 
             var okEventHandler = dialogResultTrue + Fechar;
             var cancelarEventHandler = dialogResultFalse + Fechar;
         
             btnOk.Click += okEventHandler;
             btnCancelar.Click += cancelarEventHandler;
+
+            txtNome.TextChanged += TextNome_TextChanged;
+            txtDescricao.TextChanged += TextDescricao_TextChanged;
+            txtEndereco.TextChanged += TextEndereco_TextChanged;
+            txtNumero.TextChanged += TextNumero_TextChanged;
+            txtTelefone.TextChanged += TextTelefone_TextChagend;
+        }
+
+        private void TextTelefone_TextChagend(object sender, TextChangedEventArgs e)
+        {
+            var textEstaVazio = string.IsNullOrEmpty(txtTelefone.Text);
+
+            if (textEstaVazio)
+            {
+                txtTelefone.Background = new SolidColorBrush(Colors.OrangeRed);
+            }
+            else
+            {
+                txtTelefone.Background = new SolidColorBrush(Colors.White);
+            }
+        }
+
+        private void TextNumero_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textEstaVazio = string.IsNullOrEmpty(txtNumero.Text);
+
+            if (textEstaVazio)
+            {
+                txtNumero.Background = new SolidColorBrush(Colors.OrangeRed);
+            }
+            else
+            {
+                txtNumero.Background = new SolidColorBrush(Colors.White);
+            }
+        }
+
+        private void TextEndereco_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textEstaVazio = string.IsNullOrEmpty(txtEndereco.Text);
+
+            if (textEstaVazio)
+            {
+                txtEndereco.Background = new SolidColorBrush(Colors.OrangeRed);
+            }
+            else
+            {
+                txtEndereco.Background = new SolidColorBrush(Colors.White);
+            }
+        }
+
+        private void TextDescricao_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textEstaVazio = string.IsNullOrEmpty(txtDescricao.Text);
+
+            if (textEstaVazio)
+            {
+                txtDescricao.Background = new SolidColorBrush(Colors.OrangeRed);
+            }
+            else
+            {
+                txtDescricao.Background = new SolidColorBrush(Colors.White);
+            }
+        }
+
+        private void TextNome_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textEstaVazio = string.IsNullOrEmpty(txtNome.Text);
+
+            if (textEstaVazio)
+            {
+                txtNome.Background = new SolidColorBrush(Colors.OrangeRed);
+            } else
+            {
+                txtNome.Background = new SolidColorBrush(Colors.White);
+            }
         }
 
         private void Fechar(object sender, EventArgs e) => Close();
