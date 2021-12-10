@@ -52,11 +52,28 @@ namespace ByteBank.Agencias
             btnOk.Click += okEventHandler;
             btnCancelar.Click += cancelarEventHandler;
 
+            txtNumero.TextChanged += TextNumero_TextChanged;
+            txtNumero.TextChanged += ValidarSomenteDigito;
+
             txtNome.TextChanged += ConstruirDelegateValidacaoCampoNulo(txtNome);
             txtDescricao.TextChanged += TextDescricao_TextChanged;
             txtEndereco.TextChanged += TextEndereco_TextChanged;
-            txtNumero.TextChanged += TextNumero_TextChanged;
             txtTelefone.TextChanged += ConstruirDelegateValidacaoCampoNulo(txtTelefone);
+        }
+
+        private void ValidarSomenteDigito(Object sender, EventArgs e)
+        {
+            var txt = sender as TextBox;
+
+            Func<char, bool> verificaSeEhDigito = caractere =>
+            {
+                return Char.IsDigit(caractere);
+            };
+
+            var todosCaracteresSaoDigitos = txt.Text.All(verificaSeEhDigito);
+
+
+            txt.Background = todosCaracteresSaoDigitos ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.OrangeRed);
         }
 
         private TextChangedEventHandler ConstruirDelegateValidacaoCampoNulo(TextBox txt)
