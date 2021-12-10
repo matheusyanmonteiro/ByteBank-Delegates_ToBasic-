@@ -21,6 +21,7 @@ namespace ByteBank.Agencias
     public partial class EdicaoAgencia : Window
     {
         private readonly Agencia _agencia;
+
         public EdicaoAgencia(Agencia agencia)
         {
             InitializeComponent();
@@ -41,121 +42,37 @@ namespace ByteBank.Agencias
 
         private void AtualizarControles()
         {
-
-            RoutedEventHandler dialogResultTrue =  ( o, e) =>  DialogResult = true;
-            //same
-            RoutedEventHandler dialogResultFalse = delegate (object o, RoutedEventArgs e) { DialogResult = false; };
+            RoutedEventHandler dialogResultTrue = (o, e) => DialogResult = true;
+            RoutedEventHandler dialogResultFalse = (o, e) => DialogResult = false;
 
             var okEventHandler = dialogResultTrue + Fechar;
             var cancelarEventHandler = dialogResultFalse + Fechar;
-        
+
             btnOk.Click += okEventHandler;
             btnCancelar.Click += cancelarEventHandler;
 
-            txtNumero.TextChanged += TextNumero_TextChanged;
-            txtNumero.TextChanged += ValidarSomenteDigito;
+            txtNumero.Validacao += ValidarCampoNulo;
+            txtNumero.Validacao += ValidarSomenteDigito;
 
-            txtNome.TextChanged += ConstruirDelegateValidacaoCampoNulo(txtNome);
-            txtDescricao.TextChanged += TextDescricao_TextChanged;
-            txtEndereco.TextChanged += TextEndereco_TextChanged;
-            txtTelefone.TextChanged += ConstruirDelegateValidacaoCampoNulo(txtTelefone);
+            txtNome.Validacao += ValidarCampoNulo;
+            txtDescricao.Validacao += ValidarCampoNulo;
+            txtEndereco.Validacao += ValidarCampoNulo;
+            txtTelefone.Validacao += ValidarCampoNulo;
         }
-
-        private void ValidarSomenteDigito(Object sender, EventArgs e)
+        
+        private void ValidarSomenteDigito(object sender, ValidacaoEventArgs e)
         {
-            var txt = sender as TextBox;
-
-            Func<char, bool> verificaSeEhDigito = caractere =>
-            {
-                return Char.IsDigit(caractere);
-            };
-
-            var todosCaracteresSaoDigitos = txt.Text.All(verificaSeEhDigito);
-
-
-            txt.Background = todosCaracteresSaoDigitos ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.OrangeRed);
+            var ehValido = e.Texto.All(Char.IsDigit);
+            e.EhValido = ehValido;
         }
 
-        private TextChangedEventHandler ConstruirDelegateValidacaoCampoNulo(TextBox txt)
+        private void ValidarCampoNulo(object sender, ValidacaoEventArgs e)
         {
-            return (o, e) =>
-            {
-                var textEstaVazio = string.IsNullOrEmpty(txt.Text);
-
-                txt.Background = textEstaVazio ? new SolidColorBrush(Colors.OrangeRed) : new SolidColorBrush(Colors.White);
-            };
+            var ehValido = !String.IsNullOrEmpty(e.Texto);
+            e.EhValido = ehValido;
         }
 
-        private void TextTelefone_TextChagend(object sender, TextChangedEventArgs e)
-        {
-            var textEstaVazio = string.IsNullOrEmpty(txtTelefone.Text);
-
-            if (textEstaVazio)
-            {
-                txtTelefone.Background = new SolidColorBrush(Colors.OrangeRed);
-            }
-            else
-            {
-                txtTelefone.Background = new SolidColorBrush(Colors.White);
-            }
-        }
-
-        private void TextNumero_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textEstaVazio = string.IsNullOrEmpty(txtNumero.Text);
-
-            if (textEstaVazio)
-            {
-                txtNumero.Background = new SolidColorBrush(Colors.OrangeRed);
-            }
-            else
-            {
-                txtNumero.Background = new SolidColorBrush(Colors.White);
-            }
-        }
-
-        private void TextEndereco_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textEstaVazio = string.IsNullOrEmpty(txtEndereco.Text);
-
-            if (textEstaVazio)
-            {
-                txtEndereco.Background = new SolidColorBrush(Colors.OrangeRed);
-            }
-            else
-            {
-                txtEndereco.Background = new SolidColorBrush(Colors.White);
-            }
-        }
-
-        private void TextDescricao_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textEstaVazio = string.IsNullOrEmpty(txtDescricao.Text);
-
-            if (textEstaVazio)
-            {
-                txtDescricao.Background = new SolidColorBrush(Colors.OrangeRed);
-            }
-            else
-            {
-                txtDescricao.Background = new SolidColorBrush(Colors.White);
-            }
-        }
-
-        private void TextNome_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textEstaVazio = string.IsNullOrEmpty(txtNome.Text);
-
-            if (textEstaVazio)
-            {
-                txtNome.Background = new SolidColorBrush(Colors.OrangeRed);
-            } else
-            {
-                txtNome.Background = new SolidColorBrush(Colors.White);
-            }
-        }
-
-        private void Fechar(object sender, EventArgs e) => Close();
-
+        private void Fechar(object sender, EventArgs e) =>
+            Close();
     }
 }

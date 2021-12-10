@@ -29,6 +29,7 @@ namespace ByteBank.Agencias
             InitializeComponent();
 
             lstAgencias = new ListBox();
+
             AtualizarControles();
             AtualizarListaDeAgencias();
         }
@@ -42,29 +43,29 @@ namespace ByteBank.Agencias
             Canvas.SetLeft(lstAgencias, 15);
 
             lstAgencias.SelectionChanged += new SelectionChangedEventHandler(lstAgencias_SelectionChanged);
-            
+
             container.Children.Add(lstAgencias);
 
             btnEditar.Click += new RoutedEventHandler(btnEditar_Click);
-
         }
 
         private void btnEditar_Click(object sender, RoutedEventArgs e)
         {
             var agenciaAtual = (Agencia)lstAgencias.SelectedItem;
             var janelaEdicao = new EdicaoAgencia(agenciaAtual);
+
             var resultado = janelaEdicao.ShowDialog().Value;
 
             if (resultado)
             {
-
-            } 
+                // Usuario clicou em Ok
+            }
             else
             {
-
+                // Usuario clicou em Cancelar
             }
-        }
 
+        }
 
         private void AtualizarListaDeAgencias()
         {
